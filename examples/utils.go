@@ -3,7 +3,7 @@ package examples
 import (
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
 	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
-	"github.com/dtm-labs/dtm-examples/busi"
+	"github.com/zhenlanghuo/dtm-examples/busi"
 )
 
 func MustUnmarshalReqGrpc(data []byte) *busi.ReqGrpc {

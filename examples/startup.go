@@ -2,9 +2,9 @@ package examples
 
 import (
 	"github.com/dtm-labs/client/dtmcli/logger"
-	"github.com/dtm-labs/dtm-examples/busi"
-	"github.com/dtm-labs/dtm-examples/dtmutil"
 	"github.com/gin-gonic/gin"
+	"github.com/zhenlanghuo/dtm-examples/busi"
+	"github.com/zhenlanghuo/dtm-examples/dtmutil"
 )
 
 type commandInfo struct {

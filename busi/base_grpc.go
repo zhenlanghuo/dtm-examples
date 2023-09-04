@@ -17,7 +17,7 @@ import (
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
 	"github.com/dtm-labs/client/dtmcli/logger"
 	"github.com/dtm-labs/client/dtmgrpc"
-	"github.com/dtm-labs/dtm-examples/dtmutil"
+	"github.com/zhenlanghuo/dtm-examples/dtmutil"
 
 	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
 	"github.com/dtm-labs/client/dtmgrpc/dtmgpb"

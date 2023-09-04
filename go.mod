@@ -1,4 +1,4 @@
-module github.com/dtm-labs/dtm-examples
+module github.com/zhenlanghuo/dtm-examples
 
 go 1.15
 

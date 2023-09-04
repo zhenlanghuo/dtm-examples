@@ -9,8 +9,8 @@ package examples
 import (
 	"github.com/dtm-labs/client/dtmcli"
 	"github.com/dtm-labs/client/dtmcli/logger"
-	"github.com/dtm-labs/dtm-examples/busi"
 	"github.com/lithammer/shortuuid/v3"
+	"github.com/zhenlanghuo/dtm-examples/busi"
 )
 
 func init() {

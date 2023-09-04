@@ -1,9 +1,9 @@
-简体中文 | [English](https://github.com/dtm-labs/dtm-examples/blob/main/doc/README-en.md)
+简体中文 | [English](https://github.com/zhenlanghuo/dtm-examples/blob/main/doc/README-en.md)
 
 # DTM 示例
 dtm 有许多示例，帮助大家快速上手分布式事务
 - [quick-start-sample](https://github.com/dtm-labs/quick-start-sample): dtm的快速开始使用示例，包括HTTP以及gRPC协议的最简用法
-- [dtm-examples](https://github.com/dtm-labs/dtm-examples): 项目含大量示例，主要演示了dtm SDK的各种用法。
+- [dtm-examples](https://github.com/zhenlanghuo/dtm-examples): 项目含大量示例，主要演示了dtm SDK的各种用法。
 - [dtm-cases](https://github.com/dtm-labs/dtm-cases)：包含多个项目，主要演示dtm在部分领域的完整应用，例如订单系统，秒杀系统。
 - [dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients)：包含dtm对微服务框架的支持，例如go-zero的示例
 
@@ -23,7 +23,7 @@ go run main.go
 我们从一个最简单的quick-start开始我们的第一个例子，下面的命令可以运行它
 
 ``` bash
-git clone https://github.com/dtm-labs/dtm-examples && cd dtm-examples
+git clone https://github.com/zhenlanghuo/dtm-examples && cd dtm-examples
 go run main.go qs
 
 ```

@@ -10,9 +10,9 @@ import (
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
 	"github.com/dtm-labs/client/dtmcli/logger"
 	"github.com/dtm-labs/client/workflow"
-	"github.com/dtm-labs/dtm-examples/busi"
-	"github.com/dtm-labs/dtm-examples/dtmutil"
-	"github.com/dtm-labs/dtm-examples/examples"
+	"github.com/zhenlanghuo/dtm-examples/busi"
+	"github.com/zhenlanghuo/dtm-examples/dtmutil"
+	"github.com/zhenlanghuo/dtm-examples/examples"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

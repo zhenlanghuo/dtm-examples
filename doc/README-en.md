@@ -1,9 +1,9 @@
-English | [简体中文](https://github.com/dtm-labs/dtm-examples/blob/main/doc/README-cn.md)
+English | [简体中文](https://github.com/zhenlanghuo/dtm-examples/blob/main/doc/README-cn.md)
 
 # DTM Examples
 dtm has many examples to help you get started with distributed transactions quickly
 - [quick-start-sample](https://github.com/dtm-labs/quick-start-sample): some minimal example of using dtm HTTP/gRPC/workflow client
-- [dtm-examples](https://github.com/dtm-labs/dtm-examples): a project contains a lot of examples, mainly demonstrating various uses of the dtm SDK.
+- [dtm-examples](https://github.com/zhenlanghuo/dtm-examples): a project contains a lot of examples, mainly demonstrating various uses of the dtm SDK.
 - [dtm-cases](https://github.com/dtm-labs/dtm-cases): a project contains several projects, mainly demonstrating the complete application of dtm in some fields, such as order system, flash-sales system.
 - [dtmdriver-clients](https://github.com/dtm-labs/dtmdriver-clients): contains dtm support for microservices framework, e.g. go-zero example
 
@@ -23,7 +23,7 @@ You can also use a variety of other methods, see [running dtm service](https://e
 Let's start our first example with a minimal quick-start, which can be run with the following command
 
 ``` bash
-git clone https://github.com/dtm-labs/dtm-examples && cd dtm-examples
+git clone https://github.com/zhenlanghuo/dtm-examples && cd dtm-examples
 go run main.go qs
 
 ```

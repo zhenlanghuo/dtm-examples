@@ -108,7 +108,8 @@ func init() {
 		})
 		logger.FatalIfError(err)
 
-		req := &busi.ReqHTTP{Amount: 30, TransInResult: dtmcli.ResultFailure}
+		//req := &busi.ReqHTTP{Amount: 30, TransInResult: dtmcli.ResultFailure}
+		req := &busi.ReqHTTP{Amount: 30}
 		gid := shortuuid.New()
 		err = workflow.Execute(wfName, gid, dtmimp.MustMarshal(req))
 		logger.Infof("result is: %v", err)

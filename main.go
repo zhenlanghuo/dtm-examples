@@ -42,10 +42,14 @@ func main() {
 		Password: "passwd123dtm",
 	}
 	busi.ResetXaData()
-	app, gsvr := busi.Startup()
+
+	cmd := os.Args[1]
+	app, gsvr := busi.Startup(cmd)
 	examples.AddRoutes(app)
 	time.Sleep(200 * time.Millisecond)
-	cmd := os.Args[1]
+	if cmd == "http_workflow_tcc_barrier_TccBTransInTryFailed_TccBTransOutCancelTimeout" {
+		cmd = "http_workflow_tcc_barrier"
+	}
 	if cmd == "qs" {
 		go busi.RunHTTP(app)
 		time.Sleep(200 * time.Millisecond)

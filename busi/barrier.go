@@ -79,15 +79,7 @@ func init() {
 			})
 		}))
 
-		app.POST(BusiAPI+"/TccBTransInTry", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
-			req := reqFrom(c)
-			if req.TransInResult != "" {
-				return string2DtmError(req.TransInResult)
-			}
-			return MustBarrierFromGin(c).CallWithDB(pdbGet(), func(tx *sql.Tx) error {
-				return tccAdjustTrading(tx, TransInUID, req.Amount)
-			})
-		}))
+		app.POST(BusiAPI+"/TccBTransInTry", dtmutil.WrapHandler(TccBarrierTansInTry))
 		app.POST(BusiAPI+"/TccBTransInConfirm", dtmutil.WrapHandler(func(c *gin.Context) interface{} {
 			return MustBarrierFromGin(c).CallWithDB(pdbGet(), func(tx *sql.Tx) error {
 				return tccAdjustBalance(tx, TransInUID, reqFrom(c).Amount)
@@ -189,7 +181,7 @@ func init() {
 }
 
 // TccBarrierTransOutCancel will be use in test
-func TccBarrierTransOutCancel(c *gin.Context) interface{} {
+var TccBarrierTransOutCancel = func(c *gin.Context) interface{} {
 	req := reqFrom(c)
 	bb := MustBarrierFromGin(c)
 	if req.Store == Redis {
@@ -202,6 +194,16 @@ func TccBarrierTransOutCancel(c *gin.Context) interface{} {
 	}
 	return bb.CallWithDB(pdbGet(), func(tx *sql.Tx) error {
 		return tccAdjustTrading(tx, TransOutUID, reqFrom(c).Amount)
+	})
+}
+
+var TccBarrierTansInTry = func(c *gin.Context) interface{} {
+	req := reqFrom(c)
+	if req.TransInResult != "" {
+		return string2DtmError(req.TransInResult)
+	}
+	return MustBarrierFromGin(c).CallWithDB(pdbGet(), func(tx *sql.Tx) error {
+		return tccAdjustTrading(tx, TransInUID, req.Amount)
 	})
 }
 

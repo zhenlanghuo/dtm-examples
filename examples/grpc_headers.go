@@ -7,7 +7,6 @@
 package examples
 
 import (
-	"github.com/dtm-labs/client/dtmcli"
 	"github.com/dtm-labs/client/dtmcli/logger"
 	dtmgrpc "github.com/dtm-labs/client/dtmgrpc"
 	"github.com/lithammer/shortuuid/v3"
@@ -47,7 +46,7 @@ func init() {
 		return gid
 	})
 	AddCommand("grpc_saga_passthroughHeaders", func() string {
-		dtmcli.SetPassthroughHeaders([]string{"test_header"})        // set passthrough headers. dtm will
+		//dtmcli.SetPassthroughHeaders([]string{"test_header"})        // set passthrough headers. dtm will
 		dtmgrpc.AddUnaryInterceptor(busi.SetGrpcHeaderForHeadersYes) // will set header in this middleware
 
 		req := &busi.ReqGrpc{Amount: 30}

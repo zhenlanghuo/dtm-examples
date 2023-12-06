@@ -11,6 +11,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/dtm-labs/client/dtmcli"
 	"net"
 	"time"
 
@@ -115,8 +116,8 @@ func (s *busiServer) TransInTcc(ctx context.Context, in *ReqGrpc) (*emptypb.Empt
 	return &emptypb.Empty{}, handleGrpcBusiness(in, MainSwitch.TransInResult.Fetch(), in.TransInResult, dtmimp.GetFuncName())
 }
 
-func (s *busiServer) TransOutTcc(ctx context.Context, in *ReqGrpc) (*emptypb.Empty, error) {
-	return &emptypb.Empty{}, handleGrpcBusiness(in, MainSwitch.TransOutResult.Fetch(), in.TransOutResult, dtmimp.GetFuncName())
+func (s *busiServer) TransOutTcc(ctx context.Context, in *ReqGrpc) (*BusiReply, error) {
+	return &BusiReply{Message: "TransOutTcc"}, handleGrpcBusiness(in, MainSwitch.TransOutResult.Fetch(), in.TransOutResult, dtmimp.GetFuncName())
 }
 
 func (s *busiServer) TransInXa(ctx context.Context, in *ReqGrpc) (*emptypb.Empty, error) {
@@ -154,4 +155,99 @@ func (s *busiServer) TransOutHeaderNo(ctx context.Context, in *ReqGrpc) (*emptyp
 		return &emptypb.Empty{}, errors.New("header found in HeaderNo")
 	}
 	return &emptypb.Empty{}, nil
+}
+
+func (s *busiServer) TryGiveGift(ctx context.Context, in *GiveGiftReq) (rsp *GiveGiftRsp, err error) {
+	giftOrderId := in.GetGiftOrderId()
+	barrier := MustBarrierFromGrpc(ctx)
+	err = barrier.CallWithDB(pdbGet(), func(tx *sql.Tx) error {
+		return createGiftOrder(tx, giftOrderId)
+	})
+	if err != nil {
+		return
+	}
+	rsp = &GiveGiftRsp{GiftOrderId: giftOrderId}
+	return
+}
+
+func (s *busiServer) CommitGiveGift(ctx context.Context, in *GiveGiftReq) (rsp *emptypb.Empty, err error) {
+	barrier := MustBarrierFromGrpc(ctx)
+	err = barrier.CallWithDB(pdbGet(), func(tx *sql.Tx) error {
+		return updateGiftOrder(tx, in.GetGiftOrderId(), GOSPaySuccess)
+	})
+	if err != nil {
+		return
+	}
+	rsp = &emptypb.Empty{}
+	return
+}
+
+func (s *busiServer) CancelGiveGift(ctx context.Context, in *GiveGiftReq) (rsp *emptypb.Empty, err error) {
+	barrier := MustBarrierFromGrpc(ctx)
+	err = barrier.CallWithDB(pdbGet(), func(tx *sql.Tx) error {
+		return updateGiftOrder(tx, in.GetGiftOrderId(), GOSPayFailed)
+	})
+	if err != nil {
+		return
+	}
+	rsp = &emptypb.Empty{}
+	return
+}
+
+func (s *busiServer) TryPay(ctx context.Context, in *PayReq) (rsp *emptypb.Empty, err error) {
+	//if time.Now().Unix()%2 == 0 {
+	//	err = status.New(codes.Aborted, fmt.Sprintf("reason:%s", MainSwitch.FailureReason.Fetch())).Err()
+	//	return
+	//}
+	barrier := MustBarrierFromGrpc(ctx)
+	err = barrier.CallWithDB(pdbGet(), func(tx *sql.Tx) error {
+		return createWalletOrder(tx, in.GetPayOrderId(), in.GetGiftOrderId())
+	})
+	if err != nil {
+		return
+	}
+	rsp = &emptypb.Empty{}
+	return
+}
+
+func (s *busiServer) CommitPay(ctx context.Context, in *PayReq) (rsp *emptypb.Empty, err error) {
+	rsp = &emptypb.Empty{}
+	return
+}
+
+func (s *busiServer) CancelPay(ctx context.Context, in *PayReq) (rsp *emptypb.Empty, err error) {
+	rsp = &emptypb.Empty{}
+	return
+}
+
+type GiftOrderStatus int
+
+const (
+	GOSInit       GiftOrderStatus = 1
+	GOSPaySuccess GiftOrderStatus = 2
+	GOSPayFailed  GiftOrderStatus = 3
+)
+
+func createGiftOrder(db dtmcli.DB, giftOrderId string) (err error) {
+	_, err = dtmimp.DBExec(BusiConf.Driver, db, "insert into dtm_busi.gift_order (`id`, `status`)  VALUES (?,?)", giftOrderId, GOSInit)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func updateGiftOrder(db dtmcli.DB, giftOrderId string, status GiftOrderStatus) (err error) {
+	_, err = dtmimp.DBExec(BusiConf.Driver, db, "update dtm_busi.gift_order set status = ? where id = ?", status, giftOrderId)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func createWalletOrder(db dtmcli.DB, payOrderId, giftOrderId string) (err error) {
+	_, err = dtmimp.DBExec(BusiConf.Driver, db, "insert into dtm_busi.wallet_order (`id`, `biz_order_id`)  VALUES (?,?)", payOrderId, giftOrderId)
+	if err != nil {
+		return
+	}
+	return
 }

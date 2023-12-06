@@ -15,6 +15,20 @@ message ReqGrpc {
 message BusiReply {
   string message = 1;
 }
+
+message GiveGiftReq {
+  string giftOrderId = 1;
+}
+
+message GiveGiftRsp {
+  string giftOrderId = 1;
+}
+
+message PayReq {
+  string payOrderId = 1;
+  string giftOrderId = 2;
+}
+
 // The dtm service definition.
 service Busi {
   rpc TransIn(ReqGrpc) returns (google.protobuf.Empty) {}
@@ -28,7 +42,7 @@ service Busi {
   rpc TransInXa(ReqGrpc) returns (google.protobuf.Empty) {}
   rpc TransOutXa(ReqGrpc) returns (google.protobuf.Empty) {}
   rpc TransInTcc(ReqGrpc) returns (google.protobuf.Empty) {}
-  rpc TransOutTcc(ReqGrpc) returns (google.protobuf.Empty) {}
+  rpc TransOutTcc(ReqGrpc) returns (BusiReply) {}
   rpc TransInTccNested(ReqGrpc) returns (google.protobuf.Empty) {}
 
   rpc TransInBSaga(ReqGrpc) returns (google.protobuf.Empty) {}
@@ -46,5 +60,12 @@ service Busi {
   rpc QueryPrepared(ReqGrpc) returns (BusiReply) {}
   rpc QueryPreparedB(ReqGrpc) returns (google.protobuf.Empty) {}
   rpc QueryPreparedRedis(ReqGrpc) returns (google.protobuf.Empty) {}
+
+  rpc TryGiveGift(GiveGiftReq) returns (GiveGiftRsp) {}
+  rpc CommitGiveGift(GiveGiftReq) returns (google.protobuf.Empty) {}
+  rpc CancelGiveGift(GiveGiftReq) returns (google.protobuf.Empty) {}
+  rpc TryPay(PayReq) returns (google.protobuf.Empty) {}
+  rpc CommitPay(PayReq) returns (google.protobuf.Empty) {}
+  rpc CancelPay(PayReq) returns (google.protobuf.Empty) {}
 }
 

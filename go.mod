@@ -8,11 +8,12 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/lib/pq v1.10.3
 	github.com/lithammer/shortuuid/v3 v3.0.7
 	go.mongodb.org/mongo-driver v1.9.1
 	google.golang.org/grpc v1.48.0
-	google.golang.org/protobuf v1.28.0
+	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/mysql v1.0.3
 	gorm.io/driver/postgres v1.2.1
 	gorm.io/gorm v1.22.2

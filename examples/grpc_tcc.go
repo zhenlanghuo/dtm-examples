@@ -22,10 +22,12 @@ func init() {
 		err := dtmgrpc.TccGlobalTransaction(dtmutil.DefaultGrpcServer, gid, func(tcc *dtmgrpc.TccGrpc) error {
 			data := &busi.ReqGrpc{Amount: 30}
 			r := &emptypb.Empty{}
-			err := tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutTcc", busi.BusiGrpc+"/busi.Busi/TransOutConfirm", busi.BusiGrpc+"/busi.Busi/TransOutRevert", r)
+			transOutReply := &busi.BusiReply{}
+			err := tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransOutTcc", busi.BusiGrpc+"/busi.Busi/TransOutConfirm", busi.BusiGrpc+"/busi.Busi/TransOutRevert", transOutReply)
 			if err != nil {
 				return err
 			}
+			logger.Debugf("grpc_tcc, transOutReply: %v", transOutReply)
 			err = tcc.CallBranch(data, busi.BusiGrpc+"/busi.Busi/TransInTcc", busi.BusiGrpc+"/busi.Busi/TransInConfirm", busi.BusiGrpc+"/busi.Busi/TransInRevert", r)
 			return err
 		})

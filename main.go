@@ -33,13 +33,16 @@ func main() {
 		hintExit("")
 	}
 	logger.InitLog("debug")
-	busi.StoreHost = "en.dtm.pub"
+	//busi.StoreHost = "en.dtm.pub"
+	busi.StoreHost = "127.0.0.1"
 	busi.BusiConf = dtmimp.DBConf{
-		Driver:   "mysql",
-		Host:     busi.StoreHost,
-		Port:     3306,
-		User:     "dtm",
-		Password: "passwd123dtm",
+		Driver: "mysql",
+		Host:   busi.StoreHost,
+		Port:   3306,
+		//User:     "dtm",
+		//Password: "passwd123dtm",
+		User:     "root",
+		Password: "123456",
 	}
 	busi.ResetXaData()
 
